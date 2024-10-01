@@ -44,6 +44,7 @@ Chiapas,MN,Bonampak,4357
 Chiapas,MN,Yaxchilán,2621
 Chiapas,PN,Cañón del Sumidero,21789
 Chiapas,PN,Lagunas de Montebello,6546
+Chiapas,APRN,Villa de Allende,20080.26
 Chiapas,PN,Palenque,1772
 Chiapas,RB,El Triunfo,119177
 Chiapas,RB,La Encrucijada,115653
@@ -175,6 +176,7 @@ Oaxaca,MN,Yagul,1076
 Oaxaca,PN,Benito Juárez,2592
 Oaxaca,PN,Huatulco,6375
 Oaxaca,PN,Huatulco II,2238
+Oaxaca,APFF,Bajos de Coyula II,2633.488279
 Oaxaca,PN,Lagunas de Chacahua,14896
 Oaxaca,PN,Ricardo Flores Magón,1813
 Oaxaca,PN,Tangolunda,110
@@ -187,6 +189,7 @@ Oaxaca,SANT,Playa Morro Ayuta,90
 Puebla,APRN,Z.P.F.V. la Cuenca Hidrográfica del Río Necaxa,32269
 Puebla,PN,Cañón del Río Blanco,1802
 Puebla,PN,Carmen Serdán,199
+Puebla,APRN,Kowtahyolo,1732.993442
 Puebla,PN,Iztaccíhuatl-Popocatépetl,11025
 Puebla,PN,La Montaña Malinche o Matlalcuéyatl,12431
 Puebla,PN,Pico de Orizaba,13247
@@ -201,6 +204,7 @@ Quintana Roo,APFF,Bala'an K'aax,98769
 Quintana Roo,APFF,Cenote Aerolito,10
 Quintana Roo,APFF,Isla de Cozumel,5381
 Quintana Roo,APFF,Jacinto Pat,17
+Quintana Roo,APFF,Chunyaxché,5509.038228
 Quintana Roo,APFF,Jaguar,2234
 Quintana Roo,APFF,Manglares de Nichupté,4222
 Quintana Roo,APFF,Manglares de Puerto Morelos,1103

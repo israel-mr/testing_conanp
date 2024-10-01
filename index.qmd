@@ -89,17 +89,20 @@ df_anp <- dbGetQuery(con, "SELECT * FROM anp")
 df_region <- dbGetQuery(con, "SELECT * FROM region")
 df_catmanejo <- dbGetQuery(con, "SELECT * FROM cat_manejo")
 
+
+
+#write_excel_csv(df_anp,"datos_anp30sept24.xlsx")
 ```
 
 
 ```{r echo=FALSE}
 #dataset
-manejo <- data.frame(
-  Categoria = c("APFF", "APRN", "MN", "PN", "RB", "SANT", "ADVC"),
-  Numero = c(54, 13, 5, 78, 48, 28, 581),
-  Superficie = c("7,469,180", "4,563,474", "16,269", "17,569,683", "64,033,711", "155,488", "1,137,650"),
-  Porcentaje = c(7.96, 4.86, 0.02, 18.73, 68.26, 0.17, 0.58)
-)
+# manejo <- data.frame(
+#   Categoria = c("APFF", "APRN", "MN", "PN", "RB", "SANT", "ADVC"),
+#   Numero = c(54, 13, 5, 78, 48, 28, 581),
+#   Superficie = c("7,469,180", "4,563,474", "16,269", "17,569,683", "64,033,711", "155,488", "1,137,650"),
+#   Porcentaje = c(7.96, 4.86, 0.02, 18.73, 68.26, 0.17, 0.58)
+# )
  
 ```
 
@@ -294,228 +297,228 @@ hc
 ```
 
 ```{r eval=FALSE, include=FALSE}
-
-cols_sig = c("#a87000", "#ffbe3b","#abcd66","#3166ff","#bcb800","#e60000")
-
-
-hc <- highchart() %>%
-  hc_chart(type = "column") %>%
-  #hc_title(text = "") %>% #Categoría de Manejo en Áreas Naturales Protegidas
-  
-    # hc_xAxis(categories = c("Parque Nacional", 
-    #                         "Área de Protección de Flora y Fauna", 
-    #                         "Área de Protección de Recursos Naturales",
-    #                         "Monumento Natural", "Reservas de la Biosfera", "Santuarios"),
-
-  hc_xAxis(categories = manejo_filtrado$Categoria,
-           labels = list(style = list(color = 'black'))
-           ) %>%
-  hc_yAxis_multiples(
-    list(min = 0,
-         title = list(text = "Número de ANP",
-                      style = list(color = 'black', 
-                                   fontSize = '13px'
-                                   ))
-         ), 
-    list(
-      title = list(text = "Porcentaje protegido",
-                   style = list(color = 'black', 
-                                fontSize = '13px'
-                                )
-                   ),
-      opposite = TRUE,
-      labels = list(fontSize = "16px")
-    )
-    
-  ) %>%
-  hc_legend(shadow = FALSE) %>%
-  hc_plotOptions(column = list(
-    grouping = FALSE,
-    shadow = FALSE,
-    borderWidth = 0,
-    dataLabels = list(
-      enabled = TRUE
-      ,
-      formatter = JS("
-        function() {
-          if (this.series.name === 'Número de ANP') {
-            return this.y + ' ANP';
-          } else if (this.series.name === 'Porcentaje de superficie protegida') {
-            return this.y + ' %';
-          }
-          return this.y;
-        }
-      ")
-      )
-    )) %>%
-    hc_exporting(enabled = TRUE) %>%
-  hc_add_series(
-    name = "Número de ANP",
-    colorByPoint = TRUE,
-    data = data_numero_anp,#,
-   pointPadding = 0.1,
-   showInLegend = FALSE#,
-   #enableMouseTracking = FALSE
-  ) %>%
-  hc_add_series(
-    name = "Porcentaje de superficie protegida",
-    #type = 'column',
-   color ="gray",
-    data = manejo_filtrado$Porcentaje,
-    pointPadding = 0.4,
-    yAxis = 1,
-   # ,
-   #   tooltip = list(
-   #     valueSuffix = "%"  
-   #   ),
-   marker = list(#fillColor = colores_identidad[4], 
-                              lineWidth = 2
-                              #lineColor = NULL
-                 )
-  )%>%
-  hc_tooltip(shared = TRUE, formatter = JS("
-      function() {
-        var header = '<span style=\"font-size: 11px\">' + this.x + '</span><br/>';
-        var body = this.points.reduce(function (s, point) {
-          return s + '<span style=\"color:' + point.color + '\">' + point.series.name + '</span>: <b>' + point.y + '</b><br/>';
-        }, '');
-        var superficie = this.points[0].point.superficie; 
-        var footer = '<span style=\"font-size: 10px\">Con un total de ' + <b> superficie <b> + ' ha protegidas</span>';
-        return header + body + footer;
-      }
-    ")
-  ) 
-
-hc
-
-#saveWidget(as_widget(hc), "plt-numanp.html")
-
+# 
+# cols_sig = c("#a87000", "#ffbe3b","#abcd66","#3166ff","#bcb800","#e60000")
+# 
+# 
+# hc <- highchart() %>%
+#   hc_chart(type = "column") %>%
+#   #hc_title(text = "") %>% #Categoría de Manejo en Áreas Naturales Protegidas
+#   
+#     # hc_xAxis(categories = c("Parque Nacional", 
+#     #                         "Área de Protección de Flora y Fauna", 
+#     #                         "Área de Protección de Recursos Naturales",
+#     #                         "Monumento Natural", "Reservas de la Biosfera", "Santuarios"),
+# 
+#   hc_xAxis(categories = manejo_filtrado$Categoria,
+#            labels = list(style = list(color = 'black'))
+#            ) %>%
+#   hc_yAxis_multiples(
+#     list(min = 0,
+#          title = list(text = "Número de ANP",
+#                       style = list(color = 'black', 
+#                                    fontSize = '13px'
+#                                    ))
+#          ), 
+#     list(
+#       title = list(text = "Porcentaje protegido",
+#                    style = list(color = 'black', 
+#                                 fontSize = '13px'
+#                                 )
+#                    ),
+#       opposite = TRUE,
+#       labels = list(fontSize = "16px")
+#     )
+#     
+#   ) %>%
+#   hc_legend(shadow = FALSE) %>%
+#   hc_plotOptions(column = list(
+#     grouping = FALSE,
+#     shadow = FALSE,
+#     borderWidth = 0,
+#     dataLabels = list(
+#       enabled = TRUE
+#       ,
+#       formatter = JS("
+#         function() {
+#           if (this.series.name === 'Número de ANP') {
+#             return this.y + ' ANP';
+#           } else if (this.series.name === 'Porcentaje de superficie protegida') {
+#             return this.y + ' %';
+#           }
+#           return this.y;
+#         }
+#       ")
+#       )
+#     )) %>%
+#     hc_exporting(enabled = TRUE) %>%
+#   hc_add_series(
+#     name = "Número de ANP",
+#     colorByPoint = TRUE,
+#     data = data_numero_anp,#,
+#    pointPadding = 0.1,
+#    showInLegend = FALSE#,
+#    #enableMouseTracking = FALSE
+#   ) %>%
+#   hc_add_series(
+#     name = "Porcentaje de superficie protegida",
+#     #type = 'column',
+#    color ="gray",
+#     data = manejo_filtrado$Porcentaje,
+#     pointPadding = 0.4,
+#     yAxis = 1,
+#    # ,
+#    #   tooltip = list(
+#    #     valueSuffix = "%"  
+#    #   ),
+#    marker = list(#fillColor = colores_identidad[4], 
+#                               lineWidth = 2
+#                               #lineColor = NULL
+#                  )
+#   )%>%
+#   hc_tooltip(shared = TRUE, formatter = JS("
+#       function() {
+#         var header = '<span style=\"font-size: 11px\">' + this.x + '</span><br/>';
+#         var body = this.points.reduce(function (s, point) {
+#           return s + '<span style=\"color:' + point.color + '\">' + point.series.name + '</span>: <b>' + point.y + '</b><br/>';
+#         }, '');
+#         var superficie = this.points[0].point.superficie; 
+#         var footer = '<span style=\"font-size: 10px\">Con un total de ' + <b> superficie <b> + ' ha protegidas</span>';
+#         return header + body + footer;
+#       }
+#     ")
+#   ) 
+# 
+# hc
+# 
+# #saveWidget(as_widget(hc), "plt-numanp.html")
+# 
 
 ```
 
 
 ```{r eval=FALSE, include=FALSE}
-manejo_filtrado$color =cols_sig
-
-df <-select(manejo_filtrado, Categoria, Numero,Superficie,Porcentaje,color)
-
-colnames(df)[1] <- "name"
-colnames(df)[2] <- "y"
-
-#df$Superficie = scales::comma(df$Superficie)
-df <- mutate(df,
-             hover_text = paste("Número de ANP:", y,
-                                "<br>Superficie protegida: ", "<b>", Porcentaje,"</b>", "%",
-                                "<br>Con un total de", "<b>", Superficie,"</b>", "ha protegidas"
-             )
-)
-
-
-# df$hover_text <- paste("Número de ANP:", df$y,
-#                        "<br>Superficie protegida: ", "<b>",df$Porcentaje,"</b>", "%",
-#                       "<br>Con un total de", "<b>",df$Superficie,"</b>", "ha protegidas"
-#                    
+# manejo_filtrado$color =cols_sig
+# 
+# df <-select(manejo_filtrado, Categoria, Numero,Superficie,Porcentaje,color)
+# 
+# colnames(df)[1] <- "name"
+# colnames(df)[2] <- "y"
+# 
+# #df$Superficie = scales::comma(df$Superficie)
+# df <- mutate(df,
+#              hover_text = paste("Número de ANP:", y,
+#                                 "<br>Superficie protegida: ", "<b>", Porcentaje,"</b>", "%",
+#                                 "<br>Con un total de", "<b>", Superficie,"</b>", "ha protegidas"
+#              )
 # )
-
-hc0 <- highchart() %>%
-  hc_chart(type = "column") %>%
-  hc_xAxis(categories = df$name,
-           labels = list(style = list(color = 'black'))
-  ) %>%
-  hc_yAxis_multiples(
-    list(min = 0,
-         title = list(text = "Número de ANP",
-                      style = list(color = 'black', 
-                                   fontSize = '13px')
-         )
-    )
-    ) %>%
-  hc_legend(shadow = FALSE) %>%
-  hc_plotOptions(
-    column = list(
-      grouping = FALSE,
-      shadow = FALSE,
-      borderWidth = 0,
-      dataLabels = list(
-        enabled = TRUE
-      ),
-      colorByPoint = TRUE,  
-      colors = cols_sig,   
-      series = list(
-        states = list(
-          hover = list(
-            brightness = -0.1    
-          )
-        )
-      ),
-      states = list(
-        hover = list(
-          brightness = -0.1    
-        )
-      )
-    )
-  ) %>%
-  hc_exporting(enabled = TRUE) %>%
-  hc_add_series(df, name = "Número de ANP",
-    colorByPoint = TRUE,
-   # data = data_numero_anp,
-    pointPadding = 0.1,
-    showInLegend = FALSE
-   ) %>%
-  hc_tooltip(
-    useHTML = TRUE,
-    pointFormat = '{point.hover_text}' )
-
-
-hc00 <- highchart() %>%
-  hc_chart(type = "column") %>%
-  hc_xAxis(categories = df$name,
-           labels = list(style = list(color = 'black'))
-  ) %>%
-  hc_yAxis_multiples(
-    list(min = 0,
-         title = list(text = "Número de ANP",
-                      style = list(color = 'black', 
-                                   fontSize = '13px')
-         )
-    )
-    ) %>%
-  hc_legend(shadow = FALSE) %>%
-  hc_plotOptions(
-    column = list(
-      grouping = FALSE,
-      shadow = FALSE,
-      borderWidth = 0,
-      dataLabels = list(
-        enabled = TRUE
-      ),
-      colorByPoint = TRUE,  
-      colors = cols_sig,   
-      series = list(
-        states = list(
-          hover = list(
-            brightness = -0.1    
-          )
-        )
-      ),
-      states = list(
-        hover = list(
-          brightness = -0.1    
-        )
-      )
-    )
-  ) %>%
-  hc_exporting(enabled = TRUE) %>%
-  hc_add_series( name = "Porcentaje protegido por ANP",
-    colorByPoint = TRUE,
-   data = df$Porcentaje,
-    pointPadding = 0.1,
-    showInLegend = FALSE
-   ) %>%
-  hc_tooltip(
-    useHTML = TRUE,
-    pointFormat = '{point.hover_text}' )
-
+# 
+# 
+# # df$hover_text <- paste("Número de ANP:", df$y,
+# #                        "<br>Superficie protegida: ", "<b>",df$Porcentaje,"</b>", "%",
+# #                       "<br>Con un total de", "<b>",df$Superficie,"</b>", "ha protegidas"
+# #                    
+# # )
+# 
+# hc0 <- highchart() %>%
+#   hc_chart(type = "column") %>%
+#   hc_xAxis(categories = df$name,
+#            labels = list(style = list(color = 'black'))
+#   ) %>%
+#   hc_yAxis_multiples(
+#     list(min = 0,
+#          title = list(text = "Número de ANP",
+#                       style = list(color = 'black', 
+#                                    fontSize = '13px')
+#          )
+#     )
+#     ) %>%
+#   hc_legend(shadow = FALSE) %>%
+#   hc_plotOptions(
+#     column = list(
+#       grouping = FALSE,
+#       shadow = FALSE,
+#       borderWidth = 0,
+#       dataLabels = list(
+#         enabled = TRUE
+#       ),
+#       colorByPoint = TRUE,  
+#       colors = cols_sig,   
+#       series = list(
+#         states = list(
+#           hover = list(
+#             brightness = -0.1    
+#           )
+#         )
+#       ),
+#       states = list(
+#         hover = list(
+#           brightness = -0.1    
+#         )
+#       )
+#     )
+#   ) %>%
+#   hc_exporting(enabled = TRUE) %>%
+#   hc_add_series(df, name = "Número de ANP",
+#     colorByPoint = TRUE,
+#    # data = data_numero_anp,
+#     pointPadding = 0.1,
+#     showInLegend = FALSE
+#    ) %>%
+#   hc_tooltip(
+#     useHTML = TRUE,
+#     pointFormat = '{point.hover_text}' )
+# 
+# 
+# hc00 <- highchart() %>%
+#   hc_chart(type = "column") %>%
+#   hc_xAxis(categories = df$name,
+#            labels = list(style = list(color = 'black'))
+#   ) %>%
+#   hc_yAxis_multiples(
+#     list(min = 0,
+#          title = list(text = "Número de ANP",
+#                       style = list(color = 'black', 
+#                                    fontSize = '13px')
+#          )
+#     )
+#     ) %>%
+#   hc_legend(shadow = FALSE) %>%
+#   hc_plotOptions(
+#     column = list(
+#       grouping = FALSE,
+#       shadow = FALSE,
+#       borderWidth = 0,
+#       dataLabels = list(
+#         enabled = TRUE
+#       ),
+#       colorByPoint = TRUE,  
+#       colors = cols_sig,   
+#       series = list(
+#         states = list(
+#           hover = list(
+#             brightness = -0.1    
+#           )
+#         )
+#       ),
+#       states = list(
+#         hover = list(
+#           brightness = -0.1    
+#         )
+#       )
+#     )
+#   ) %>%
+#   hc_exporting(enabled = TRUE) %>%
+#   hc_add_series( name = "Porcentaje protegido por ANP",
+#     colorByPoint = TRUE,
+#    data = df$Porcentaje,
+#     pointPadding = 0.1,
+#     showInLegend = FALSE
+#    ) %>%
+#   hc_tooltip(
+#     useHTML = TRUE,
+#     pointFormat = '{point.hover_text}' )
+# 
 
 
 # 
@@ -556,17 +559,57 @@ hc00 <- highchart() %>%
 
 <h2 font-size: 28px; align ='center'><br><br><b>Protección del medio terrestre y marino <br>en las ANP Federales</br></b></h2>
 
+
+```{r echo=FALSE}
+resumen_superficies <- df_anp %>%
+  group_by(id_superficie) %>%  # Agrupar por id_superficie
+  summarise(
+    num_anp = n(),  # Contar cuántas ANP tienen ese tipo de superficie
+    superficie_t_total = sum(superficie_terrestre, na.rm = TRUE),
+    superficie_m_total = sum(superficie_marina, na.rm = TRUE)
+  )
+
+
+
+# tot_superficies <- df_anp %>%
+#   group_by(id_superficie) %>%  
+#   summarise(
+#     num_anp = n(),  
+#     superficie_t_total = sum(superficie_terrestre, na.rm = TRUE),
+#     superficie_m_total = sum(superficie_marina, na.rm = TRUE)
+#   ) # este estoy usando
+
+
+
+
+```
+
+ 
+
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-manejo_ordenado <- manejo[order(-manejo$Numero), ] #(-manejo$
+resumen_superficie = resumen_superficies
+total_sup = sum(df_anp$superficie_total)
+sup_nacional_terrestre = 196437500.00
+sup_nacional_marina =314992000.00
+
+
+
 
 ambientes <- data.frame(
   Tipo = c("<span style=\"font-size: 12px\"> <b>Medio terrestre</b></span>", 
           # "<span style=\"font-size: 12px\"> <b>Medio costero marino</b></span>",
          "<span style=\"font-size: 12px\"> <b>Medio marino</b></span>"
            ),
-  Superficie = c(23066607, 70794424),
-  Porcentaje_ANP = c(24.58, 75.42),
-  Porcentaje_Territorio = c(11.72, 22.47)
+  Superficie = c(round(sum(resumen_superficies$superficie_t_total),3), 
+                 round(sum(resumen_superficies$superficie_m_total),3)
+                 ),
+  
+  Porcentaje_ANP = c( round(sum(resumen_superficies$superficie_t_total)/total_sup*100,2),
+                      round(round(sum(resumen_superficies$superficie_m_total),3)/total_sup*100,2)),
+  
+  Porcentaje_Territorio = c(round(sum(resumen_superficies$superficie_t_total)/sup_nacional_terrestre*100,2),
+                            round(sum(resumen_superficies$superficie_m_total)/sup_nacional_marina*100,2))
 )
 
 notas_terrestres <- paste0("Representa un ", 
@@ -585,7 +628,7 @@ ambientes$hover_text <- paste(c(
                    "<b>",scales::comma(ambientes$Superficie[1]),"</b>"," ha", 
                    "<br>Porcentaje del total protegido: ",
                    "<b>",ambientes$Porcentaje_ANP[1],"</b>", "%",
-                    "<br>&nbsp;&nbsp;<b>188 ANP</b> cuentan con superficie exclusivamente terrestre.</b>"
+                    "<br>&nbsp;&nbsp;<b>",resumen_superficies$num_anp[1] ," ANP</b> cuentan con superficie exclusivamente terrestre.</b>"
                    
                    
                    ),
@@ -594,8 +637,8 @@ ambientes$hover_text <- paste(c(
                    "<b>",scales::comma(ambientes$Superficie[2]),"</b>", " ha",
                    "<br>Porcentaje del total protegido: ",
                    "<b>",ambientes$Porcentaje_ANP[2], "%","</b>",
-                  "<br>&nbsp;&nbsp;  <b>8 ANP</b> cuentan con superficie exclusivamente marina y<br>&nbsp;&nbsp; 
-                   <b>31 ANP</b> cuentan con una superficie costero-marino</b>"
+                  "<br>&nbsp;&nbsp;  <b>",resumen_superficies$num_anp[2] ," ANP</b> cuentan con superficie exclusivamente marina y<br>&nbsp;&nbsp; 
+                   <b> ",resumen_superficies$num_anp[3] ," ANP</b> cuentan con una superficie costero-marino</b>"
                    )
 )
 )
@@ -644,176 +687,177 @@ fig <- fig %>%
 fig
 ```
 
+
 ```{r echo=FALSE, include=FALSE}
-
-# Datos actualizados con la tercera categoría
-ambientes <- data.frame(
-  Tipo = c("<span style=\"font-size: 12px\"> <b>Medio terrestre</b></span>", 
-           "<span style=\"font-size: 12px\"> <b>Medio costero-marino</b></span>",
-           "<span style=\"font-size: 12px\"> <b>Medio marino</b></span>"
-           ),
-  Superficie = c(23013380.39, 25415271.29, 45379152.67),
-  Porcentaje_ANP = c(24.53, 27.09, 48.37),
-  Porcentaje_Territorio = c(11.71, 8.07, 14.41)
-)
-
-notas_terrestres <- paste0("Representa un ", 
-                          "<b>", ambientes$Porcentaje_Territorio[1],"%","</b>", 
-                          " de la superficie terrestre nacional"
-                          )
-notas_costeros <- paste0("Representa un ", 
-                        "<b>",ambientes$Porcentaje_Territorio[2],"%","</b>", 
-                        " de la superficie costero-marina nacional"
-                        )
-notas_marinos <- paste0("Representa un ", 
-                       "<b>",ambientes$Porcentaje_Territorio[3],"%","</b>", 
-                       " de la superficie marina del territorio nacional"
-                       )
-
-ambientes$hover_text <- paste(c(
-            paste0("Cuenta con <b>187 ANP</b> </b>",
-                   "<br>Superficie: ",
-                   "<b>",scales::comma(ambientes$Superficie[1]),"</b>"," ha", 
-                   "<br>Porcentaje del total protegido: ",
-                   "<b>",ambientes$Porcentaje_ANP[1],"</b>", "%<br>",
-                   notas_terrestres
-                   ),
-            paste0("Cuenta con <b>31 ANP</b>.</b>", 
-                   "<br>Superficie: ", 
-                   "<b>",scales::comma(ambientes$Superficie[2]),"</b>", " ha",
-                   "<br>Porcentaje del total protegido: ",
-                   "<b>",ambientes$Porcentaje_ANP[2], "%","</b><br>",
-                   notas_costeros
-                   
-                   ),
-            paste0("Cuenta con <b>8 ANP</b>", 
-                   "<br>Superficie: ", 
-                   "<b>",scales::comma(ambientes$Superficie[3]),"</b>", " ha",
-                   "<br>Porcentaje del total protegido: ",
-                   "<b>",ambientes$Porcentaje_ANP[3], "%","</b><br>",
-                   notas_marinos
-                   
-                   )
-))
-
-colnames(ambientes)[1] <- "name"
-colnames(ambientes)[3] <- "y"
-ambientes$color <- c("#8C5C47","#6FA5C3","#4A8CB0")
-ambientes$Superficie <- scales::comma(ambientes$Superficie)
-df <- select(ambientes, name, y, color, hover_text, r = Superficie)
-
-fig <- highchart() 
-
-fig <- fig %>%
-  hc_chart(type = 'pie',
-           polar = FALSE,
-           inverted = FALSE,
-           options3d = list(
-             enabled = TRUE,
-             alpha = 20,
-             beta = 5
-    )
-  ) %>%
-  hc_add_series(df,
-                name = 'Ambientes',
-                showInLegend = TRUE,
-                innerSize = '33%',
-                dataLabels = list(enabled = TRUE,
-                                  format = '{point.name}: {point.percentage:.2f}%',
-                                  style = list(color = '#000000', fontSize = '14px')
-                                  ),
-                pie = list(ignoreHiddenPoint = FALSE)
-  ) %>%
-  hc_plotOptions(series = list(animation = TRUE),
-                 pie = list(
-    ignoreHiddenPoint = FALSE,  
-      animation = TRUE
-    )
-                 ) %>%
-  hc_tooltip(
-    useHTML = TRUE,
-    pointFormat = '{point.hover_text}'
-  ) %>%
-  hc_exporting(enabled = TRUE)
-
-fig
+# 
+# # Datos actualizados con la tercera categoría
+# ambientes <- data.frame(
+#   Tipo = c("<span style=\"font-size: 12px\"> <b>Medio terrestre</b></span>", 
+#            "<span style=\"font-size: 12px\"> <b>Medio costero-marino</b></span>",
+#            "<span style=\"font-size: 12px\"> <b>Medio marino</b></span>"
+#            ),
+#   Superficie = c(23013380.39, 25415271.29, 45379152.67),
+#   Porcentaje_ANP = c(24.53, 27.09, 48.37),
+#   Porcentaje_Territorio = c(11.71, 8.07, 14.41)
+# )
+# 
+# notas_terrestres <- paste0("Representa un ", 
+#                           "<b>", ambientes$Porcentaje_Territorio[1],"%","</b>", 
+#                           " de la superficie terrestre nacional"
+#                           )
+# notas_costeros <- paste0("Representa un ", 
+#                         "<b>",ambientes$Porcentaje_Territorio[2],"%","</b>", 
+#                         " de la superficie costero-marina nacional"
+#                         )
+# notas_marinos <- paste0("Representa un ", 
+#                        "<b>",ambientes$Porcentaje_Territorio[3],"%","</b>", 
+#                        " de la superficie marina del territorio nacional"
+#                        )
+# 
+# ambientes$hover_text <- paste(c(
+#             paste0("Cuenta con <b>187 ANP</b> </b>",
+#                    "<br>Superficie: ",
+#                    "<b>",scales::comma(ambientes$Superficie[1]),"</b>"," ha", 
+#                    "<br>Porcentaje del total protegido: ",
+#                    "<b>",ambientes$Porcentaje_ANP[1],"</b>", "%<br>",
+#                    notas_terrestres
+#                    ),
+#             paste0("Cuenta con <b>31 ANP</b>.</b>", 
+#                    "<br>Superficie: ", 
+#                    "<b>",scales::comma(ambientes$Superficie[2]),"</b>", " ha",
+#                    "<br>Porcentaje del total protegido: ",
+#                    "<b>",ambientes$Porcentaje_ANP[2], "%","</b><br>",
+#                    notas_costeros
+#                    
+#                    ),
+#             paste0("Cuenta con <b>8 ANP</b>", 
+#                    "<br>Superficie: ", 
+#                    "<b>",scales::comma(ambientes$Superficie[3]),"</b>", " ha",
+#                    "<br>Porcentaje del total protegido: ",
+#                    "<b>",ambientes$Porcentaje_ANP[3], "%","</b><br>",
+#                    notas_marinos
+#                    
+#                    )
+# ))
+# 
+# colnames(ambientes)[1] <- "name"
+# colnames(ambientes)[3] <- "y"
+# ambientes$color <- c("#8C5C47","#6FA5C3","#4A8CB0")
+# ambientes$Superficie <- scales::comma(ambientes$Superficie)
+# df <- select(ambientes, name, y, color, hover_text, r = Superficie)
+# 
+# fig <- highchart() 
+# 
+# fig <- fig %>%
+#   hc_chart(type = 'pie',
+#            polar = FALSE,
+#            inverted = FALSE,
+#            options3d = list(
+#              enabled = TRUE,
+#              alpha = 20,
+#              beta = 5
+#     )
+#   ) %>%
+#   hc_add_series(df,
+#                 name = 'Ambientes',
+#                 showInLegend = TRUE,
+#                 innerSize = '33%',
+#                 dataLabels = list(enabled = TRUE,
+#                                   format = '{point.name}: {point.percentage:.2f}%',
+#                                   style = list(color = '#000000', fontSize = '14px')
+#                                   ),
+#                 pie = list(ignoreHiddenPoint = FALSE)
+#   ) %>%
+#   hc_plotOptions(series = list(animation = TRUE),
+#                  pie = list(
+#     ignoreHiddenPoint = FALSE,  
+#       animation = TRUE
+#     )
+#                  ) %>%
+#   hc_tooltip(
+#     useHTML = TRUE,
+#     pointFormat = '{point.hover_text}'
+#   ) %>%
+#   hc_exporting(enabled = TRUE)
+# 
+# fig
 
 ```
 
 
 
 ```{r eval=FALSE, include=FALSE}
-df <- data.frame(
-  name = c("Medio marino", "Medio terrestre"),
-  r = c("70,794,424", "23,013,380"),
-  y = c(75.47, 24.53)
-)
-
-#df <- df %>% mutate(y_formatted = format(y, big.mark = ","))
-df <- df %>% mutate(r_formatted = format(r, big.mark = ","))
-colores = c("#4A8CB0","#8C5C47")
-
-prueba_marterr <- highchart()
-
-prueba_marterr <- prueba_marterr %>%
-  hc_chart(
-    type = 'pie', 
-    polar = FALSE ,  
-    inverted = FALSE,
-    options3d = list(
-      enabled = TRUE,
-      alpha = 20,
-      beta = 20 #0
-    )
-  ) %>%
-  hc_plotOptions(
-    pie = list(
-      innerSize = '50%',  
-      depth = 25, 
-      startAngle = 80)
-  ) %>%
-  hc_xAxis(categories = df$name) %>%
-  hc_add_series(
-    name = 'ambientes',
-    innerSize = '30%',
-    data = list(
-      list(
-        name = 'Medio terrestre',
-        y = df$y[1],
-        r = df$r[1],
-        percentage = df$percentage[1],
-        color ="#8C5C47",
-        dataLabels = list(
-          enabled = TRUE,
-          format = '<b>{point.name}</b> <br> Superficie: {point.r} ha<br>Porcentaje protegido: {point.percentage:.2f} %',
-          distance = -175,
-          style = list(fontWeight = 'bold',fontSize = '18px',  color = 'white', textOutline = 'none')
-        )
-      ),
-      list(
-        name = 'Medio marino',
-        y = df$y[2],
-        r = df$r[2],
-        percentage = df$percentage[2],
-        color ="#4A8CB0",
-        dataLabels = list(
-          enabled = TRUE,
-          format = '<b>{point.name}</b> <br> Superficie: {point.r} ha<br>Porcentaje protegido: {point.percentage:.2f} %',
-          distance = -138,
-          style = list(fontWeight = 'bold', fontSize = '18px', color = 'white', textOutline = 'none')
-        )
-      )
-    )) %>%
-  hc_exporting(enabled = TRUE) %>% 
-  hc_plotOptions(series = list(animation = FALSE)) %>%
-  hc_legend(enabled = FALSE)
-
-prueba_marterr
-
-saveWidget(as_widget(prueba_marterr), "plt-protecanp1.html")
-
-
-
+# df <- data.frame(
+#   name = c("Medio marino", "Medio terrestre"),
+#   r = c("70,794,424", "23,013,380"),
+#   y = c(75.47, 24.53)
+# )
+# 
+# #df <- df %>% mutate(y_formatted = format(y, big.mark = ","))
+# df <- df %>% mutate(r_formatted = format(r, big.mark = ","))
+# colores = c("#4A8CB0","#8C5C47")
+# 
+# prueba_marterr <- highchart()
+# 
+# prueba_marterr <- prueba_marterr %>%
+#   hc_chart(
+#     type = 'pie', 
+#     polar = FALSE ,  
+#     inverted = FALSE,
+#     options3d = list(
+#       enabled = TRUE,
+#       alpha = 20,
+#       beta = 20 #0
+#     )
+#   ) %>%
+#   hc_plotOptions(
+#     pie = list(
+#       innerSize = '50%',  
+#       depth = 25, 
+#       startAngle = 80)
+#   ) %>%
+#   hc_xAxis(categories = df$name) %>%
+#   hc_add_series(
+#     name = 'ambientes',
+#     innerSize = '30%',
+#     data = list(
+#       list(
+#         name = 'Medio terrestre',
+#         y = df$y[1],
+#         r = df$r[1],
+#         percentage = df$percentage[1],
+#         color ="#8C5C47",
+#         dataLabels = list(
+#           enabled = TRUE,
+#           format = '<b>{point.name}</b> <br> Superficie: {point.r} ha<br>Porcentaje protegido: {point.percentage:.2f} %',
+#           distance = -175,
+#           style = list(fontWeight = 'bold',fontSize = '18px',  color = 'white', textOutline = 'none')
+#         )
+#       ),
+#       list(
+#         name = 'Medio marino',
+#         y = df$y[2],
+#         r = df$r[2],
+#         percentage = df$percentage[2],
+#         color ="#4A8CB0",
+#         dataLabels = list(
+#           enabled = TRUE,
+#           format = '<b>{point.name}</b> <br> Superficie: {point.r} ha<br>Porcentaje protegido: {point.percentage:.2f} %',
+#           distance = -138,
+#           style = list(fontWeight = 'bold', fontSize = '18px', color = 'white', textOutline = 'none')
+#         )
+#       )
+#     )) %>%
+#   hc_exporting(enabled = TRUE) %>% 
+#   hc_plotOptions(series = list(animation = FALSE)) %>%
+#   hc_legend(enabled = FALSE)
+# 
+# prueba_marterr
+# 
+# saveWidget(as_widget(prueba_marterr), "plt-protecanp1.html")
+# 
+# 
+# 
 
 
 
@@ -842,7 +886,11 @@ porcentaje_anp_federal <- c(1.22, 2.47, 2.64,
                             2.31, 0.81, 0.93, 75.47)
 
 
-vegetacion = read_csv("data/vegetacion_tb.csv", show_col_types = FALSE)
+#vegetacion = read_csv("data/vegetacion_tb.csv", show_col_types = FALSE)
+vegetacion <- dbGetQuery(con, "SELECT * FROM vegetacion")
+
+
+
 
 vegetacion$color = rep("#2c3e50", dim(vegetacion)[1])
 
